@@ -7,13 +7,12 @@ import Glogo from "../../../../public/images/google.png";
 // import TitlePage from "../../../TitlePage/TitlePage";
 import loginImage from "../../../../public/images/login.svg";
 import Swal from "sweetalert2";
-// import { useCreateTravelUserMutation } from "../../redux/api/authApi";
+import { useCreateDynamicUserMutation } from "../../../Redux/api/authApi";
 
 const LoginPage = () => {
   const { loginUser, handleGoogleSignIn } = useContext(AuthContext);
-  //   const [createTravelUser] = useCreateTravelUserMutation();
+  const [createDynamicUser] = useCreateDynamicUserMutation();
 
-  const id = Math.floor(Math.random() * 100000);
 
   const {
     register,
@@ -24,22 +23,21 @@ const LoginPage = () => {
   const loginWithGoogle = () => {
     handleGoogleSignIn()
       .then(async (res) => {
+        console.log(res);
         const user = res?.user;
         const fullName = user?.displayName;
         const email = user?.email;
-        const photoURL = user?.photoURL;
 
         const userData = {
-          id: id,
           fullName: fullName,
           email: email,
-          photoURL: photoURL,
           role: "user",
         };
 
         try {
-          //   const responseFromServer = await createTravelUser(userData);
-          //   console.log(responseFromServer);
+          const responseFromServer = await createDynamicUser(userData);
+          console.log(responseFromServer);
+          
           Swal.fire({
             position: "top-end",
             icon: "success",

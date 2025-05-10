@@ -1,7 +1,7 @@
 import { baseApi } from "./api/baseApi";
-import productReducer from "./Features/Product/ProductsSlice";
+import userReducer from "./Features/Product/ProductsSlice";
 
 export const rootReducer = {
-  cloth: productReducer, // name: "clothingBrand",
+  cloth: userReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 };

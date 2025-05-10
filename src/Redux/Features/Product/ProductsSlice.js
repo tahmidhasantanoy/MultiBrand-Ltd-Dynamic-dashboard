@@ -3,10 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = { value: [] };
 
 export const productSlice = createSlice({
-  name: "clothingBrand",
+  name: "dynamicUser",
   initialState,
   reducers: {
-
     // Lots of slice here ...
     countProduct: (state, action) => {
       state.value = action.payload;

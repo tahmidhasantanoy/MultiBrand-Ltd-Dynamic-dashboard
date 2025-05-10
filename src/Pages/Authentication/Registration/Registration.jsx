@@ -5,7 +5,8 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import registerImage from "../../../../public/images/register.svg";
 import Swal from "sweetalert2";
-// import { useCreateTravelUserMutation } from "../../redux/api/authApi";
+import { useCreateDynamicUserMutation } from "../../../Redux/api/authApi";
+import { useNavigate } from "react-router-dom";
 
 const Registration = () => {
   const [passwordMatch, setPasswordMatch] = useState(true);
@@ -17,7 +18,8 @@ const Registration = () => {
   const [inputCFocusPassword, setInputFocusCPassword] = useState(false);
 
   const { createUser } = useContext(AuthContext);
-  //   const [createTravelUser] = useCreateTravelUserMutation();
+  const [createDynamicUser] = useCreateDynamicUserMutation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -33,32 +35,32 @@ const Registration = () => {
       return;
     }
 
-    const id = Math.floor(Math.random() * 100000);
-
     createUser(email, password)
       .then(async (res) => {
         const user = res?.user;
 
         const userData = {
-          id: id,
-          fullName: fullname,
+          username: fullname,
           email: user?.email,
-          role: "user",
+          password: password,
         };
 
         try {
-          //   const responseFromServer = await createTravelUser(userData);
-          //   console.log(responseFromServer);
+          const responseFromServer = await createDynamicUser(userData);
+
+          if (responseFromServer?.data?.success) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/login");
+          }
         } catch (err) {
-          console.log(err.message); //
+          console.log(err.message);
         }
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500,
-        });
       })
       .catch((err) => console.log(err));
   };
