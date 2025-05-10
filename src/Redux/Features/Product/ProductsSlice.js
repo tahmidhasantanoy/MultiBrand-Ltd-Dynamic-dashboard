@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { value: [] };
+const initialState = { value: [], email: "" };
 
-export const productSlice = createSlice({
+export const dynamicSlice = createSlice({
   name: "dynamicUser",
   initialState,
   reducers: {
@@ -10,9 +10,12 @@ export const productSlice = createSlice({
     countProduct: (state, action) => {
       state.value = action.payload;
     },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
   },
 });
 
-export const { countProduct } = productSlice.actions;
+export const { countProduct, setEmail } = dynamicSlice.actions;
 
-export default productSlice.reducer;
+export default dynamicSlice.reducer;

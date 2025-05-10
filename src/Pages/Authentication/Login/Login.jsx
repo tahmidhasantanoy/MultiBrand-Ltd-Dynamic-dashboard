@@ -1,18 +1,20 @@
 /* eslint-disable no-unused-vars */
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import Glogo from "../../../../public/images/google.png";
-// import TitlePage from "../../../TitlePage/TitlePage";
 import loginImage from "../../../../public/images/login.svg";
 import Swal from "sweetalert2";
-import { useCreateDynamicUserMutation } from "../../../Redux/api/authApi";
+import { useLoginDynamicUserMutation } from "../../../Redux/api/authApi";
+import { useDispatch } from "react-redux";
+import { setEmail } from "../../../Redux/Features/Product/ProductsSlice"; // Import the setEmail action
 
 const LoginPage = () => {
   const { loginUser, handleGoogleSignIn } = useContext(AuthContext);
-  const [createDynamicUser] = useCreateDynamicUserMutation();
-
+  const [loginDynamicUser] = useLoginDynamicUserMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -20,6 +22,7 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
 
+  // handle google sign in later
   const loginWithGoogle = () => {
     handleGoogleSignIn()
       .then(async (res) => {
@@ -35,9 +38,9 @@ const LoginPage = () => {
         };
 
         try {
-          const responseFromServer = await createDynamicUser(userData);
+          const responseFromServer = await loginDynamicUser(userData);
           console.log(responseFromServer);
-          
+
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -61,34 +64,50 @@ const LoginPage = () => {
 
     try {
       loginUser(email, password)
-        .then((res) => {
+        .then(async (res) => {
           const user = res.user;
           const email = user?.email;
-
           console.log(user);
 
+          const userData = {
+            email: email,
+            password: password,
+          };
+          console.log(userData, "userData");
+
+          const responseFromServer = await loginDynamicUser(userData);
+          const accessToken = responseFromServer?.data?.accessToken;
+
+          if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+          }
+
+          dispatch(setEmail(email)); 
+
           Swal.fire({
-            position: "top-end",
             icon: "success",
-            title: "Successfull",
+            title: "Login Successful",
             showConfirmButton: false,
             timer: 1500,
           });
+
+          navigate("/");
         })
-        .then((data) => console.log(data));
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+          });
+        });
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-      });
+      console.log(err);
     }
   };
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200">
       <div className="flex flex-col md:flex-row items-center bg-white shadow-2xl rounded-lg p-8 w-full max-w-[1300px]">
-        {/* <TitlePage title="Login" /> */}
         {/* Left Section - Image */}
         <div className="md:w-1/2 text-center mb-6 md:mb-0">
           <img
@@ -202,13 +221,8 @@ const LoginPage = () => {
                 Or login in with &nbsp;&nbsp;&nbsp;
               </p>
               <div className="flex items-center space-x-3">
-                {/* <img className="w-8 h-8" src={Flogo} alt="Social media icon" /> */}
                 <button onClick={loginWithGoogle}>
-                  <img
-                    className="w-8 h-8"
-                    src={Glogo}
-                    alt="Social media icon"
-                  />
+                  <img className="w-8 h-8" src={Glogo} alt="Google icon" />
                 </button>
               </div>
             </div>

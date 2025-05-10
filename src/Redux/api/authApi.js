@@ -11,8 +11,17 @@ const authApi = baseApi.injectEndpoints({
         ContentType: "application/json",
       }),
     }),
+    loginDynamicUser: build.mutation({
+      query: (userInfo) => ({
+        url: "/login",
+        method: "POST",
+        data: userInfo,
+        ContentType: "application/json",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateDynamicUserMutation } = authApi;
+export const { useCreateDynamicUserMutation, useLoginDynamicUserMutation } =
+  authApi;

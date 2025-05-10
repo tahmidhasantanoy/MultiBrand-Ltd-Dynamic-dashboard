@@ -1,14 +1,56 @@
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import { useCreateNewUserInfoMutation } from "../../Redux/api/manageUsersApi";
 
 const AddUser = () => {
+  const { user, loading } = useContext(AuthContext);
+  const email = user?.email;
+  const [createNewUserInfo] = useCreateNewUserInfoMutation();
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  useEffect(() => {
+    if (email) {
+      setValue("authority", email);
+    }
+  }, [email, setValue]);
+
+  const onSubmit = async (data) => {
     console.log("Form Submitted:", data);
+
+    if (loading) {
+      <p>Loading ...</p>;
+    }
+
+    const { name, userEmail, phone, dob, status } = data;
+
+    const addedUserData = {
+      name,
+      userEmail,
+      phone,
+      dob,
+      status,
+      authority: email,
+    };
+
+    // Server action
+    const responseFromServer = await createNewUserInfo(addedUserData);
+    if (responseFromServer?.data?.success) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
   };
 
   return (
@@ -36,7 +78,7 @@ const AddUser = () => {
         <label className="block text-sm font-medium text-black">Email</label>
         <input
           type="email"
-          {...register("email", {
+          {...register("userEmail", {
             required: "Email is required",
             pattern: {
               value: /^\S+@\S+$/i,
@@ -99,7 +141,8 @@ const AddUser = () => {
           Authority
         </label>
         <input
-          defaultValue={"Give the email of the authority"}
+          defaultValue={email} /* Problem here */
+          readOnly
           type="tel"
           {...register("authority", {})}
           className="mt-1 block w-full rounded border"

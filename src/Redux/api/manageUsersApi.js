@@ -2,21 +2,21 @@
 
 import { baseApi } from "./baseApi";
 
-const clothApi = baseApi.injectEndpoints({
+const manageUsersApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getAllProducts: build.query({
+    getUsersInfo: build.query({
       query: () => ({
-        url: "/all/product/get",
+        url: "/get-users-info",
         method: "GET",
       }),
       providesTags: ["Product"], // cache for real time data get
     }),
 
-    placeNewOrder: build.mutation({
-      query: (newOrderInfo) => ({
-        url: "/public/order/create",
+    createNewUserInfo: build.mutation({
+      query: (newUserInfo) => ({
+        url: "/add-user-info", // modify
         method: "POST",
-        data: newOrderInfo,
+        data: newUserInfo,
         ContentType: "application/json",
       }),
       invalidatesTags: ["Product"], // Invalide data after placing an order
@@ -25,4 +25,4 @@ const clothApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetAllProductsQuery, usePlaceNewOrderMutation } = clothApi;
+export const { useGetUsersInfoQuery, useCreateNewUserInfoMutation } = manageUsersApi;
