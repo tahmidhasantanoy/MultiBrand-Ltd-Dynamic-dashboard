@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { LiaPowerOffSolid } from "react-icons/lia";
 import { RiHome3Line } from "react-icons/ri";
 import { NavLink, Outlet } from "react-router-dom";
 
@@ -7,6 +9,7 @@ const Dashboard = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true); // For large/tab devices
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // For mobile devices
   const mobileMenuRef = useRef(null); // Reference for the mobile menu
+  const [openUserDropdown, setOpenUserDropdown] = useState(false);
 
   // Close mobile menu if click outside of it
   useEffect(() => {
@@ -28,6 +31,10 @@ const Dashboard = () => {
     };
   }, []);
 
+  const handleLogoutFromDashboard = () => {
+    console.log("logoutfromdashboard");
+  };
+
   return (
     <div className="flex h-screen">
       {/* Left Drawer - Visible on Large and Tab Devices */}
@@ -41,16 +48,16 @@ const Dashboard = () => {
           {/* First Section */}
           <div className=".flex-1 p-3 border-r border-gray-300 bg-gray-200 flex flex-col items-center justify-center mr-[2px] rounded-r-xl">
             <ul className="mt-4">
-              <li className="py-2 px-1 hover:bg-gray-300 rounded-md">
-                <NavLink
-                  to={"/"}
-                  className="py-2 px-1 hover:bg-gray-300 rounded-md"
-                >
+              <li className="py-2 px-1 hover:bg-gray-300 rounded-md flex items-center">
+                <NavLink to={"/"} className="hover:bg-gray-300 rounded-md">
                   <RiHome3Line className="text-black w-4 h-4" />
                 </NavLink>
               </li>
-              <li className="py-2 px-1 hover:bg-gray-300 rounded-md">
-                <RiHome3Line className="text-black w-4 h-4" />
+              <li
+                onClick={handleLogoutFromDashboard}
+                className="py-2 px-1 hover:bg-gray-300 rounded-md"
+              >
+                <LiaPowerOffSolid className="text-black w-4 h-4" />
               </li>
               <li className="py-2 px-1 hover:bg-gray-300 rounded-md">
                 <RiHome3Line className="text-black w-4 h-4" />
@@ -60,18 +67,75 @@ const Dashboard = () => {
 
           {/* Second Section */}
           <div className="flex-1 p-4 bg-gray-200 rounded-2xl m-2">
-            <h3 className="font-semibold text-gray-700">Second Column</h3>
-            <ul className="mt-4">
-              <li className="py-2 px-4 hover:bg-gray-300 rounded-md">
-                <NavLink to={"/dashboard/all-packeges"}>All Packeges</NavLink>
+            <h3 className="font-semibold text-gray-700 text-center tracking-widest">
+              Dashboard
+            </h3>
+            <ul className="mt-4 space-y-2">
+              <li>
+                <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "block py-2 px-4 bg-black text-white rounded-md"
+                      : "block py-2 px-4 hover:bg-gray-300 rounded-md"
+                  }
+                >
+                  Dash Home
+                </NavLink>
               </li>
-              <li className="py-2 px-4 hover:bg-gray-300 rounded-md">
-                <NavLink to={"/dashboard/add-packeges"}>Add packeges</NavLink>
+
+              {/* Dropdown Menu */}
+              <li>
+                <button
+                  onClick={() => setOpenUserDropdown(!openUserDropdown)}
+                  className="w-full text-left py-2 px-4 hover:bg-gray-300 rounded-md"
+                >
+                  <div className="flex items-center space-x-1">
+                    <p>User Module</p>
+                    {openUserDropdown ? <FaChevronUp /> : <FaChevronDown />}
+                  </div>
+                </button>
+                {openUserDropdown && (
+                  <ul className="ml-4 mt-2 space-y-2">
+                    <li>
+                      <NavLink
+                        to="/dashboard/manage-users/add-user"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "block py-1 px-4 bg-blue-400 text-white rounded"
+                            : "block py-1 px-4 hover:bg-gray-300 rounded"
+                        }
+                      >
+                        Add User
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/dashboard/manage-users/manage-user"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "block py-1 px-4 bg-blue-400 text-white rounded"
+                            : "block py-1 px-4 hover:bg-gray-300 rounded"
+                        }
+                      >
+                        Manage User
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/dashboard/manage-users/remove-user"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "block py-1 px-4 bg-blue-400 text-white rounded"
+                            : "block py-1 px-4 hover:bg-gray-300 rounded"
+                        }
+                      >
+                        Remove User
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
               </li>
-              <li className="py-2 px-4 hover:bg-gray-300 rounded-md">
-                Settings
-              </li>
-              <li className="py-2 px-4 hover:bg-gray-300 rounded-md">Logout</li>
             </ul>
           </div>
         </div>
@@ -87,7 +151,7 @@ const Dashboard = () => {
       <div className="fixed bottom-4 left-4 sm:hidden">
         <button
           onClick={() => setIsMobileMenuOpen(true)}
-          className="bg-blue-500 text-white p-3 rounded-full shadow-md hover:bg-blue-600"
+          className="bg-black text-white p-3 rounded-full shadow-md hover:bg-black-600"
         >
           Menu
         </button>
@@ -102,7 +166,7 @@ const Dashboard = () => {
           >
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-gray hover:text-gray-700"
             >
               Close
             </button>
