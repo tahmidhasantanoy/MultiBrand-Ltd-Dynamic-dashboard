@@ -6,6 +6,7 @@ import Registration from "../Pages/Authentication/Registration/Registration";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import AddUser from "../Pages/Dashboard/AddUser";
 import ManageUser from "../Pages/Dashboard/ManageUser";
+import EditUser from "../Pages/Dashboard/EditUser";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "manage-users/manage-user",
         element: <ManageUser />,
+      },
+      {
+        path: "manage-users/edit-user/:id",
+        element: <EditUser />,
       },
     ],
   },

@@ -5,6 +5,7 @@ import UserCard from "./UserCard";
 const ManageUser = () => {
   const { data, isLoading, isError } = useGetUsersInfoQuery();
   const users = data?.data;
+  console.log(users);
 
   if (isLoading) return <p>Loading ...</p>;
 
