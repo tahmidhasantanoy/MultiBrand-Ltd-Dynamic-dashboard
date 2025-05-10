@@ -67,7 +67,7 @@ const Dashboard = () => {
 
           {/* Second Section */}
           <div className="flex-1 p-4 bg-gray-200 rounded-2xl m-2">
-            <h3 className="font-semibold text-gray-700 text-center tracking-widest">
+            <h3 className="text-lg font-semibold text-gray-700 text-center tracking-widest">
               Dashboard
             </h3>
             <ul className="mt-4 space-y-2">
@@ -102,7 +102,7 @@ const Dashboard = () => {
                         to="/dashboard/manage-users/add-user"
                         className={({ isActive }) =>
                           isActive
-                            ? "block py-1 px-4 bg-blue-400 text-white rounded"
+                            ? "block py-1 px-4 bg-gray-400 text-white rounded"
                             : "block py-1 px-4 hover:bg-gray-300 rounded"
                         }
                       >
@@ -114,7 +114,7 @@ const Dashboard = () => {
                         to="/dashboard/manage-users/manage-user"
                         className={({ isActive }) =>
                           isActive
-                            ? "block py-1 px-4 bg-blue-400 text-white rounded"
+                            ? "block py-1 px-4 bg-gray-400 text-white rounded"
                             : "block py-1 px-4 hover:bg-gray-300 rounded"
                         }
                       >
@@ -126,7 +126,7 @@ const Dashboard = () => {
                         to="/dashboard/manage-users/remove-user"
                         className={({ isActive }) =>
                           isActive
-                            ? "block py-1 px-4 bg-blue-400 text-white rounded"
+                            ? "block py-1 px-4 bg-gray-400 text-white rounded"
                             : "block py-1 px-4 hover:bg-gray-300 rounded"
                         }
                       >
