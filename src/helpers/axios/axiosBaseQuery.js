@@ -6,16 +6,13 @@ export const axiosBaseQuery =
   async ({ url, method, data, params, headers, ContentType }) => {
     try {
       const token = localStorage.getItem("accessToken");
-      console.log(token);
+      // console.log(token);
 
       const result = await axios({
         url: baseUrl + url,
         method,
         data,
         params,
-        // headers: {
-        //   "Content-Type": ContentType || "application/json",
-        // },
         headers: {
           Authorization: token ? `Bearer ${token}` : "",
           "Content-Type": ContentType || "application/json",

@@ -1,17 +1,20 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { LiaPowerOffSolid } from "react-icons/lia";
 import { RiHome3Line } from "react-icons/ri";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true); // For large/tab devices
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // For mobile devices
-  const mobileMenuRef = useRef(null); // Reference for the mobile menu
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
   const [openUserDropdown, setOpenUserDropdown] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // Close mobile menu if click outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -22,10 +25,8 @@ const Dashboard = () => {
       }
     };
 
-    // Add event listener to document
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Cleanup event listener on component unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -33,11 +34,26 @@ const Dashboard = () => {
 
   const handleLogoutFromDashboard = () => {
     console.log("logoutfromdashboard");
+
+    logOut()
+      .then((res) => {
+        console.log(res);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Logout Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/login");
+        localStorage.removeItem("accessToken");
+      })
+      .catch((err) => console.log(err.messsage));
   };
 
   return (
     <div className="flex h-screen">
-      {/* Left Drawer - Visible on Large and Tab Devices */}
+      {/* Left Drawer */}
       <div
         className={`${
           isDrawerOpen ? "w-64" : "w-16"
@@ -132,7 +148,7 @@ const Dashboard = () => {
         {/* Repeated content */}
       </div>
 
-      {/* Toggle Button for Mobile - Visible Only on Mobile */}
+      {/* Toggle Button */}
       <div className="fixed bottom-4 left-4 sm:hidden">
         <button
           onClick={() => setIsMobileMenuOpen(true)}
@@ -142,11 +158,11 @@ const Dashboard = () => {
         </button>
       </div>
 
-      {/* Mobile Menu - Slides in from the Left */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex">
           <div
-            ref={mobileMenuRef} // Add ref to the mobile menu container
+            ref={mobileMenuRef}
             className="bg-white w-64 h-full shadow-lg p-4"
           >
             <button

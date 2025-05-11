@@ -29,8 +29,6 @@ const DashboardHome = () => {
 
   if (isLoading || isError) return <p>Loading ...</p>;
 
-  console.log(users);
-
   //   Pie Chart data
   const statusCount = {};
 
