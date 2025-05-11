@@ -31,6 +31,14 @@ const manageUsersApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["multibrand"],
     }),
+
+    deleteUserInfo: build.mutation({
+      query: (id) => ({
+        url: `/delete-user-info/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["multibrand"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -39,4 +47,5 @@ export const {
   useGetUsersInfoQuery,
   useCreateNewUserInfoMutation,
   useUpdateUserInfoMutation,
+  useDeleteUserInfoMutation
 } = manageUsersApi;

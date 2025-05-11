@@ -1,9 +1,47 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useDeleteUserInfoMutation } from "../../Redux/api/manageUsersApi";
 
 const UserCard = ({ user }) => {
+  const [deleteUserInfo] = useDeleteUserInfoMutation();
   const { _id, name, userEmail, phone, dob, authority, createdAt, status } =
     user;
+
+  const handleDeleteUser = (deletedUserId) => {
+    console.log("delete user", deletedUserId);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete this user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log(deletedUserId);
+
+        try {
+          const responseFromServer = await deleteUserInfo(deletedUserId);
+          console.log(responseFromServer);
+
+          if (responseFromServer?.data?.success) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Deleted Successfully",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
+  };
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 max-w-md w-full border border-gray-300 hover:shadow-2xl transition duration-300 space-y-4">
       <div className="flex justify-between items-start">
@@ -41,7 +79,10 @@ const UserCard = ({ user }) => {
         <button className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-1.5 rounded-full shadow-sm transition">
           <Link to={`/dashboard/manage-users/edit-user/${_id}`}>✏️ Edit</Link>
         </button>
-        <button className="bg-red-600 hover:bg-red-700 text-white text-xs px-4 py-1.5 rounded-full shadow-sm transition">
+        <button
+          onClick={() => handleDeleteUser(_id)}
+          className="bg-red-600 hover:bg-red-700 text-white text-xs px-4 py-1.5 rounded-full shadow-sm transition"
+        >
           🗑️ Delete
         </button>
       </div>
