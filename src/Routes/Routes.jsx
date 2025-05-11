@@ -7,6 +7,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import AddUser from "../Pages/Dashboard/AddUser";
 import ManageUser from "../Pages/Dashboard/ManageUser";
 import EditUser from "../Pages/Dashboard/EditUser";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
     children: [
+      {
+        index: true,
+        element: <DashboardHome />,
+      },
       {
         path: "manage-users/add-user",
         element: <AddUser />,

@@ -9,8 +9,6 @@ const UserCard = ({ user }) => {
     user;
 
   const handleDeleteUser = (deletedUserId) => {
-    console.log("delete user", deletedUserId);
-
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete this user!",
@@ -21,8 +19,6 @@ const UserCard = ({ user }) => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log(deletedUserId);
-
         try {
           const responseFromServer = await deleteUserInfo(deletedUserId);
           console.log(responseFromServer);
@@ -43,7 +39,7 @@ const UserCard = ({ user }) => {
     });
   };
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 max-w-md w-full border border-gray-300 hover:shadow-2xl transition duration-300 space-y-4">
+    <div className="bg-gray-50 rounded-2xl shadow-md p-6 max-w-md w-full border border-gray-300 hover:shadow-2xl transition duration-300 space-y-4">
       <div className="flex justify-between items-start">
         <div>
           <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
@@ -53,7 +49,11 @@ const UserCard = ({ user }) => {
         </div>
         <span
           className={`px-3 py-0.5 text-xs rounded-full font-semibold text-white ${
-            status === "active" ? "bg-green-500" : "bg-red-500"
+            status === "active"
+              ? "bg-green-500"
+              : status === "inactive"
+              ? "bg-yellow-500"
+              : "bg-red-500"
           }`}
         >
           {status}

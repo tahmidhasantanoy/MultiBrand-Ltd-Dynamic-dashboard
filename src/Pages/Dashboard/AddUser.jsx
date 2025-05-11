@@ -23,7 +23,6 @@ const AddUser = () => {
   }, [email, setValue]);
 
   const onSubmit = async (data) => {
-
     if (loading) {
       <p>Loading ...</p>;
     }
@@ -132,6 +131,7 @@ const AddUser = () => {
           <option value="">Select status</option>
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
+          <option value="failed">Failed</option>
         </select>
         {errors.status && (
           <p className="text-red-600 text-xs mt-1">{errors.status.message}</p>

@@ -77,7 +77,7 @@ const Dashboard = () => {
                   className={({ isActive }) =>
                     isActive
                       ? "block py-2 px-4 bg-black text-white rounded-md"
-                      : "block py-2 px-4 hover:bg-gray-300 rounded-md"
+                      : "block py-2 px-4 bg-none hover:bg-gray-300 rounded-md"
                   }
                 >
                   Dash Home
@@ -119,18 +119,6 @@ const Dashboard = () => {
                         }
                       >
                         Manage User
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/dashboard/manage-users/remove-user"
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block py-1 px-4 bg-gray-400 text-white rounded"
-                            : "block py-1 px-4 hover:bg-gray-300 rounded"
-                        }
-                      >
-                        Remove User
                       </NavLink>
                     </li>
                   </ul>
