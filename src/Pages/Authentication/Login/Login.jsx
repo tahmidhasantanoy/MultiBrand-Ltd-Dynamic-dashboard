@@ -67,13 +67,11 @@ const LoginPage = () => {
         .then(async (res) => {
           const user = res.user;
           const email = user?.email;
-          console.log(user);
 
           const userData = {
             email: email,
             password: password,
           };
-          console.log(userData, "userData");
 
           const responseFromServer = await loginDynamicUser(userData);
           const accessToken = responseFromServer?.data?.accessToken;
