@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const UserCard = ({ user }) => {
-  const { _id, name, email, phone, dob, authority, createdAt, status } = user;
+  const { _id, name, userEmail, phone, dob, authority, createdAt, status } =
+    user;
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 max-w-md w-full border border-gray-300 hover:shadow-2xl transition duration-300 space-y-4">
       <div className="flex justify-between items-start">
@@ -23,7 +24,7 @@ const UserCard = ({ user }) => {
 
       <div className="text-sm text-gray-700 space-y-1">
         <p>
-          <span className="font-semibold">📧 Email:</span> {email}
+          <span className="font-semibold">📧 Email:</span> {userEmail}
         </p>
         <p>
           <span className="font-semibold">📱 Phone:</span> {phone}

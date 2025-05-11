@@ -23,7 +23,6 @@ const AddUser = () => {
   }, [email, setValue]);
 
   const onSubmit = async (data) => {
-    console.log("Form Submitted:", data);
 
     if (loading) {
       <p>Loading ...</p>;
@@ -87,8 +86,10 @@ const AddUser = () => {
           })}
           className="mt-1 block w-full rounded border border-black p-2 focus:outline-none focus:ring-1 focus:ring-black"
         />
-        {errors.email && (
-          <p className="text-red-600 text-xs mt-1">{errors.email.message}</p>
+        {errors.userEmail && (
+          <p className="text-red-600 text-xs mt-1">
+            {errors.userEmail.message}
+          </p>
         )}
       </div>
 
@@ -141,7 +142,7 @@ const AddUser = () => {
           Authority
         </label>
         <input
-          defaultValue={email} /* Problem here */
+          defaultValue={email}
           readOnly
           type="tel"
           {...register("authority", {})}
