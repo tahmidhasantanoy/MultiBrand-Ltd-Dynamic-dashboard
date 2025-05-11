@@ -16,14 +16,14 @@ Before you begin, ensure you have the following installed on your machine:
 
 1. Go to the GitHub repository page for this project.
 2. Click the "Fork" button in the top right corner of the page.
-3. Select your GitHub account or organization to fork the repository into your account.
+3. Select the GitHub account or organization to fork the repository into your account.
 
 ### Step 2: Clone the forked repository
 
 Once the repository is forked, you can clone it to your local machine:
 
 ```bash
-git clone https://github.com/your-username/dynamic-dashboard.git
+https://github.com/tahmidhasantanoy/MultiBrand-Ltd-Dynamic-dashboard
 ```
 
 ### Step 3: Install dependencies
@@ -63,8 +63,6 @@ yarn dev
 # Technologies Used
 
 ---
-
-
 
 - **React** - A JavaScript library for building user interfaces.
 - **Redux Toolkit** - A toolkit for efficient Redux development.

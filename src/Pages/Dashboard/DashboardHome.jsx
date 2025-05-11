@@ -12,7 +12,6 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-
 import {
   BarChart,
   Bar,
@@ -25,16 +24,13 @@ import {
 const DashboardHome = () => {
   const { data, isLoading, isError } = useGetUsersInfoQuery();
   const users = data?.data;
-  //   console.log(users);
 
   if (isLoading || isError) return <p>Loading ...</p>;
 
-  //   Pie Chart data
   const statusCount = {};
 
   for (let i = 0; i < users.length; i++) {
     const status = users[i].status;
-
     if (statusCount[status] === undefined) {
       statusCount[status] = 1;
     } else {
@@ -51,7 +47,6 @@ const DashboardHome = () => {
     });
   }
 
-  //   Data for Bar Chart
   const months = [
     "January",
     "February",
@@ -80,7 +75,6 @@ const DashboardHome = () => {
     }
   });
 
-  //  Area Chart
   const getMonthYear = (dateStr) => {
     const date = new Date(dateStr);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
@@ -94,15 +88,12 @@ const DashboardHome = () => {
   users.forEach((user) => {
     const dobMonth = getMonthYear(user.dob);
     const createdMonth = getMonthYear(user.createdAt);
-
-    // Initialize month if not present
     if (!counts[dobMonth]) {
       counts[dobMonth] = { month: dobMonth, dob: 0, created: 0 };
     }
     if (!counts[createdMonth]) {
       counts[createdMonth] = { month: createdMonth, dob: 0, created: 0 };
     }
-
     counts[dobMonth].dob += 1;
     counts[createdMonth].created += 1;
   });
@@ -217,6 +208,51 @@ const DashboardHome = () => {
         <figcaption className="text-center mt-4 text-lg text-gray-700">
           Monthly Comparison of Users by DOB and Account Creation
         </figcaption>
+      </div>
+
+      <div className="bg-white rounded-lg mt-10 p-6 overflow-auto max-h-[400px]">
+        <h2 className="text-xl font-semibold mb-4 text-center">
+          User Index Table
+        </h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-[1000px] w-full table-auto text-sm text-left border">
+            <thead className="bg-gray-100 sticky top-0">
+              <tr>
+                <th className="p-3">Serial</th>
+                <th className="p-3">Name</th>
+                <th className="p-3">Email</th>
+                <th className="p-3">Authority</th>
+                <th className="p-3">DOB</th>
+                <th className="p-3">Phone</th>
+                <th className="p-3">Status</th>
+                <th className="p-3">Created</th>
+                <th className="p-3">Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user, i) => (
+                <tr key={user._id} className="border-t hover:bg-gray-50">
+                  <td className="p-3">{i + 1}</td>
+                  <td className="p-3">{user.name}</td>
+                  <td className="p-3">{user.userEmail}</td>
+                  <td className="p-3">{user.authority}</td>
+                  <td className="p-3">{user.dob}</td>
+                  <td className="p-3">{user.phone}</td>
+                  <td className="p-3 capitalize">{user.status}</td>
+                  <td className="p-3">
+                    {new Date(user.createdAt).toLocaleString()}
+                  </td>
+                  <td className="p-3">
+                    {new Date(user.updatedAt).toLocaleString() ===
+                    "Invalid Date"
+                      ? "N/A"
+                      : new Date(user.updatedAt).toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -33,11 +33,8 @@ const Dashboard = () => {
   }, []);
 
   const handleLogoutFromDashboard = () => {
-    console.log("logoutfromdashboard");
-
     logOut()
       .then((res) => {
-        console.log(res);
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -93,7 +90,7 @@ const Dashboard = () => {
                       : "block py-2 px-4 bg-none hover:bg-gray-300 rounded-md"
                   }
                 >
-                  Dash Home
+                  Dashboard Home
                 </NavLink>
               </li>
 

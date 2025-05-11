@@ -39,19 +39,35 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardHome />,
+        element: (
+          <PrivateRoute>
+            <DashboardHome />
+          </PrivateRoute>
+        ),
       },
       {
         path: "manage-users/add-user",
-        element: <AddUser />,
+        element: (
+          <PrivateRoute>
+            <AddUser />
+          </PrivateRoute>
+        ),
       },
       {
         path: "manage-users/manage-user",
-        element: <ManageUser />,
+        element: (
+          <PrivateRoute>
+            <ManageUser />
+          </PrivateRoute>
+        ),
       },
       {
         path: "manage-users/edit-user/:id",
-        element: <EditUser />,
+        element: (
+          <PrivateRoute>
+            <EditUser />
+          </PrivateRoute>
+        ),
       },
     ],
   },
