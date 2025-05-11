@@ -8,6 +8,7 @@ import AddUser from "../Pages/Dashboard/AddUser";
 import ManageUser from "../Pages/Dashboard/ManageUser";
 import EditUser from "../Pages/Dashboard/EditUser";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,

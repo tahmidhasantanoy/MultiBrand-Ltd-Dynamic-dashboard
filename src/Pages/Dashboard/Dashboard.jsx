@@ -59,9 +59,6 @@ const Dashboard = () => {
               >
                 <LiaPowerOffSolid className="text-black w-4 h-4" />
               </li>
-              <li className="py-2 px-1 hover:bg-gray-300 rounded-md">
-                <RiHome3Line className="text-black w-4 h-4" />
-              </li>
             </ul>
           </div>
 
